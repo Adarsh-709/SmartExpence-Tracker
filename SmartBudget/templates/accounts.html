@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="accmain">
+        <div class="imgmain">
+        <div class="accimg">
+            <div class="form-container">
+            <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+                <div class="image-container">
+                    {% if profile_pic %}
+                        <img src="{{ profile_pic }}" alt="Profile Picture">
+                    {% endif %}
+                </div>
+                        
+                <input type="file" name="file" id="file-input" hidden required>
+                
+                <label for="file-input" class="custom-file-label">Choose File</label>
+                
+                <button type="submit" class="upload-btn">Upload Image</button>
+                <p id="file-name" class="file-name"></p>
+            </form>
+            </div>
+            
+            <div class="accimgcnt">
+                <div class="accname">
+                    {% if full_name %}
+                    <h2>{{full_name}} </h2>
+                    {% endif %}
+                </div>
+                <div class="accusername">
+                    {% if username %}
+                    <h2>@{{username}} </h2>
+                    {% endif %}
+                </div>
+                <div class="userinfo">
+                    {% if email %}
+                    <p>Email : {{email}} </p>
+                    {% endif %}
+                    {% if ph_num %}
+                    <p>Contact : {{ph_num}} </p>
+                    {% endif %}
+                    {% if dob %}
+                    <p>DOB : {{dob}} </p>
+                    {% endif %}
+                </div>
+            </div>
+            
+        </div>
+            <div class="about">
+                <h3 style="text-align: center; margin-top: 15px; font-size: large;"> ABOUT SMART BUDGET </h3>
+                <br>
+                <p style="text-align: center;">
+                    Managing your finances has never been easier! Smart Budget is a personal finance tracker designed to help you log expenses, analyze spending habits, and gain financial control—all with the power of voice input.
+                </p>
+                <br>
+                <p>
+                    <ul style="list-style-type: none; font-size: large; font-weight: 900;">&#128273; Key Features
+                        <li style="list-style: none; margin-top: 2px; margin-left: 40px;">&#10004;  <b>Voice-Activated Expense Logging</b style="margin-left: 3px"> </li>
+                        <li style="list-style: none; margin-top: 2px; margin-left: 40px;">&#10004;  <b>Spending Categorization</b style="margin-left: 3px"> </li>
+                        <li style="list-style: none; margin-top: 2px; margin-left: 40px;">&#10004;  <b>Visual Insights</b style="margin-left: 3px"> </li>
+                        <li style="list-style: none; margin-top: 2px; margin-left: 40px;">&#10004;  <b>Monthly Reports</b style="margin-left: 3px"> </li>
+                        <li style="list-style: none; margin-top: 2px; margin-left: 40px;">&#10004;  <b>User-Friendly Interface</b style="margin-left: 3px"> </li>
+                    </ul style="list-style: none;">
+                </p>
+                <br>
+                <p style="text-align: center;">With Smart Budget, budgeting is no longer a hassle—it's a seamless, intuitive experience. Start tracking today and take control of your financial future!</p>
+        </div>
+        </div>
+        <div class="acccnt">
+            <div class="accitems">
+                <h4 class="change">ACCOUNT</h4>
+                <div class="changeitems">
+                    <a href="#name-modal" class="cha">
+                        <button class="chbtn" onclick="document.getElementById('name-modal').style.display='block'"> Name </button>
+                    </a>
+                    <a href="#dob-modal" class="cha">
+                        <button class="chbtn" onclick="document.getElementById('dob-modal').style.display='block'"> DOB </button>
+                    </a>
+                    <a href="#email-modal" class="cha">
+                        <button class="chbtn" onclick="document.getElementById('email-modal').style.display='block'"> Email </button>
+                    </a>
+                    <a href="#contact-modal" class="cha">
+                        <button class="chbtn" onclick="document.getElementById('contact-modal').style.display='block'"> Contact </button>
+                    </a>
+                    <a href="#balance-modal" class="cha">
+                        <button class="chbtn" onclick="document.getElementById('balance-modal').style.display='block'"> Balance </button>
+                    </a>
+                    <a href="#pass-modal" class="cha">
+                        <button class="chbtn" onclick="document.getElementById('pass-modal').style.display='block'"> Password </button>
+                    </a>
+                </div>
+                <div class="deleteitems">
+                    <a href="{{ url_for('logout')}}" class="cha" onclick="return confirmLogout()" >
+                    <button class="dlbtn"> Log Out </button>
+                    </a>
+                    <a href="{{ url_for('delete_user')}}" class="cha" onclick="return confirmdeletion()">
+                    <button class="dlbtn"> Delete Account </button>
+                    </a>
+                </div>
+                <div class="contact-container">
+                    <p style="text-align: center; font-size: large;"><strong>Contact</strong></p>
+                    <div class="contact">
+                            <p>📧 <a href="mailto:myacc7076761781@gmail.com" class="contact-link">Send an Email</a></p>
+                            <p>🔗 <a href="https://www.linkedin.com/in/adarsh-sharma-b54b8a278?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="contact-link">LinkedIn</a></p>
+                            <p>📷 <a href="https://www.instagram.com/adarsh_709?igsh=cWM4MnQ0eHl2azJ6" target="_blank" class="contact-link">Instagram</a></p>
+                            <p>🌐 <a href="https://www.facebook.com/share/14pU31ncCM/" target="_blank" class="contact-link">Facebook</a></p>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: medium; margin-top: 5px;">&copy; 2025 AD. All rights reserved.</p>
+        </div>
+    </div>
+
+
+
+    <div id="name-modal" class="modal">
+        <div class="modal-content">
+            <h2>Enter New Name</h2>
+            <form action="{{ url_for('update', btn='name' ) }}" method="POST">
+                <input type="text" name="new_name" required placeholder="New Name">
+                <button type="submit" class="submit-btn">Save</button>
+            </form>
+            <a href="#" class="close">
+                <button class="close-btn">Cancel</button>
+            </a>
+        </div>
+    </div>
+    <div id="dob-modal" class="modal">
+        <div class="modal-content">
+            <h2>Enter New DOB</h2>
+            <form action="{{ url_for('update', btn='dob' ) }}" method="POST">
+                <input type="date" name="new_dob" required>
+                <button type="submit" class="submit-btn">Save</button>
+            </form>
+            <a href="#" class="close">
+                <button class="close-btn">Cancel</button>
+            </a>
+        </div>
+    </div>
+    <div id="email-modal" class="modal">
+        <div class="modal-content">
+            <h2>Enter New Email</h2>
+            <form action="{{ url_for('update', btn='email' ) }}" method="POST">
+                <input type="email" name="new_email" required>
+                <button type="submit" class="submit-btn">Save</button>
+            </form>
+            <a href="#" class="close">
+                <button class="close-btn">Cancel</button>
+            </a>
+        </div>
+    </div>
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+            <h2>Enter New Contact</h2>
+            <form action="{{ url_for('update', btn='contact' ) }}" method="POST">
+                <input type="number" name="new_contact" required>
+                <button type="submit" class="submit-btn">Save</button>
+            </form>
+            <a href="#" class="close">
+                <button class="close-btn">Cancel</button>
+            </a>
+        </div>
+    </div>
+    <div id="balance-modal" class="modal">
+        <div class="modal-content">
+            <h2>Enter Current Balance</h2>
+            <form action="{{ url_for('update', btn='balance' ) }}" method="POST">
+                <input type="number" name="new_balance" required>
+                <button type="submit" class="submit-btn">Save</button>
+            </form>
+            <a href="#" class="close">
+                <button class="close-btn">Cancel</button>
+            </a>
+        </div>
+    </div>
+    <div id="pass-modal" class="modal">
+        <div class="modal-content">
+            <h2>Enter New Password</h2>
+            <form action="{{ url_for('update', btn='password' ) }}" method="POST">
+                <input type="password" name="new_password" required>
+                <button type="submit" class="submit-btn">Save</button>
+            </form>
+            <a href="#" class="close">
+                <button class="close-btn">Cancel</button>
+            </a>
+        </div>
+    </div>
+{% endblock %}

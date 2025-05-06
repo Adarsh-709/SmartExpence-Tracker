@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if welcome %}
+<div class="homemain">
+<h2 class="welcome">{{welcome}}</h2>
+{% endif %}
+<div class="home_container">
+    <div class="total_card">
+        <h2>Net Balance</h2>
+        <p>Rs {{ balance }}</p>
+    </div>
+    <div class="total_card">
+        <h2>Total Income</h2>
+        <p>Rs {{ income }}</p>
+    </div>
+    <div class="total_card">
+        <h2>Total Expense</h2>
+        {% if expense is none %}
+             {% set expense = 0 %}
+        {% endif %}
+        <p>Rs {{ expense }}</p>
+    </div>
+</div>
+<section class="goal_setter">
+        
+    <div class="goal">  
+        {% if goal_amount %}        
+            <h2>Your Savings Goal: ₹{{ goal_amount }}</h2>
+            <p><strong>Goal Duration:</strong> {{ t_months }} months</p>
+            <p><strong>Time Left:</strong> {{ remaining_years }} years, {{ remaining_months }} months</p>
+            <p><strong>Target Completion Date:</strong> {{ end_date }}</p> 
+            <p><strong>Saved So Far:</strong> ₹{{ total_saved }}</p>
+            <p><strong>Remaining Amount:</strong> ₹{{ remaining_amount }}</p>
+            <div class="progress-container">
+                {% if goal_amount > 0 and total_saved is not none %}
+                    <div class="progress-bar" style="width: {{ ((total_saved / goal_amount) * 100)|int }}%;"></div>
+                {% else %}
+                    <div class="progress-bar" style="width: 0%;"></div>
+                {% endif %}
+            </div>
+            
+            <form action="{{url_for('remove_saving')}}">
+                <button class="remove_saving"> Remove Saving Goal </button>
+            </form>
+        {% else %} 
+            <p style="text-align: center;">NO SAVING GOAL SET !</p>
+            <p style="text-align: center;"><b>Start Saving For Better Future !</b></p>
+        {% endif %}  
+    </div>
+    
+</section>
+
+    <section class="features">
+        <h2 class="section-title">Key Features</h2>
+        <div class="feature-container">
+
+            <a href="/expenses" style="text-decoration: none;">
+                <div class="feature-card">  
+                    <span class="icon">🎤</span>
+                    <h3>Voice-Based Expense Logging</h3>
+                    <p>Log your expenses effortlessly using voice commands, making tracking quicker and hands-free.</p>
+                </div>
+            </a>
+            
+            <a href="/reports" style="text-decoration: none;">
+                <div class="feature-card">
+                    <span class="icon">📊</span>
+                    <h3>Real-Time Expense Tracking</h3>
+                    <p>Monitor your expenses instantly with real-time updates and detailed breakdowns.</p>
+                </div>
+            </a>
+            <a href="/reports" style="text-decoration: none;">
+                <div class="feature-card">
+                    <span class="icon">📂</span>
+                    <h3>Category-Wise Spending Analysis</h3>
+                    <p>Understand your spending habits with categorized expense insights and visual reports.</p>
+            </div>
+            </a>
+
+            <a href="/reports" style="text-decoration: none;">
+            <div class="feature-card">
+                <span class="icon">📅</span>
+                <h3>Monthly Report Generation</h3>
+                <p>Receive automated monthly summaries with charts to better plan your finances.</p>
+            </div>
+            </a>
+
+        </div>
+    </section>
+
+    <div class="saving_section">
+    <section class="savings-planner">
+        <h2>Savings Goal Planner</h2>
+        <div class="planner-container">
+            <form method="POST" action="{{ url_for('savings_planner') }}">
+                <label for="income">Monthly Income (₹):</label>
+                <input type="number" name="income" required value="{{ request.form.get('income', '') }}">
+            
+                <label for="duration">Savings Duration:</label>
+                <input type="number" name="duration" required min="1" value="{{ request.form.get('duration', '') }}">
+            
+                <label for="duration_type">Duration Type:</label>
+                <select name="duration_type" required>
+                    <option value="months" {% if request.form.get('duration_type') == 'months' %}selected{% endif %}>Months</option>
+                    <option value="years" {% if request.form.get('duration_type') == 'years' %}selected{% endif %}>Years</option>
+                </select>
+            
+                <label for="savings_goal">Target Savings (₹):</label>
+                <input type="number" name="savings_goal" required value="{{ request.form.get('savings_goal', '') }}">
+            
+                <button type="submit" name="action" value="cal" class="Calculate">Calculate</button>
+                
+                {% if result and color == 'green' %}
+                        <button name="action" value="set" class="setgoal">Set This as Your Goal</button>
+                {% endif %}
+                
+            </form>
+            {% if goal %}
+                <div class="result" style="color: blue">
+                    <p>{{ goal }}</p>
+                </div>
+            {% endif %}
+
+            {% if result %}
+                {% if color == 'green' %}
+                    <div class="result" style="color: green">
+                {% endif %}
+                {% if color == 'red' %}
+                    <div class="result" style="color: red">
+                {% endif %}
+                    <p>{{ result }}</p>
+                </div>
+                
+            {% endif %}
+        </div>
+    </section>
+    
+    </div>
+</div>
+{% endblock %}

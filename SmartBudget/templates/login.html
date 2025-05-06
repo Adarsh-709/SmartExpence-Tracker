@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <title>Login</title>
+</head>
+<body>
+    <div class="full">
+        <div class="img">
+            <img id="logpic" src="{{ url_for('static', filename='assets/ADARSH.png') }}" alt="LoginImg">
+        </div>
+
+    <div class="main" >
+        <input type="checkbox" id="chk" aria-hidden="true">
+        <div class="signup">
+            <form  method="POST" action="{{ url_for('signup') }}" >
+                <label for="chk" aria-hidden="true">Sign Up</label>
+                <input type="text" name="username" placeholder="User Name" required="">
+                <input type="email" name="email" placeholder="Email" required="">
+                <input type="password" name="password" placeholder="Password" required="">
+                <button type="submit">Sign Up</button>
+            </form>
+            {% if error %}  <!-- Check if 'error' is passed from Flask -->
+                <p style="color: red; text-align: center;">{{ error }}</p>  <!-- Display error message in red -->
+                {% endif %}
+            {% if success %}
+                <p style="color: greenyellow; text-align: center;">{{ success }}</p>  <!-- Display error message in red -->
+            {% endif %}
+        </div>
+
+        <div class="login">
+            <form method="POST" action="{{ url_for('login') }}">
+                <label for="chk" aria-hidden="true">Login</label>
+                <input type="email" name="email" placeholder="Email" required="">
+                <input type="password" name="password" placeholder="Password" required="">
+                <button type="submit">Log in</button>
+            </form>
+            {% if error %}  <!-- Check if 'error' is passed from Flask -->
+                <p style="color: red; text-align: center;">{{ error }}</p>  <!-- Display error message in red -->
+            {% endif %}
+        </div>
+    </div>
+
+    </div>
+    
+</body>
+</html>
+

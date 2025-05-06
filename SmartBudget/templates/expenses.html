@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    <div class="mic">
+        <h2 style="justify-content: flex-start;">Voice-Based Expense Logging</h2>
+    <form action="{{ url_for('add_expense_voice') }}" method="POST">
+        <button type="button" id="start-voice" class="mic-button">🎤</button>
+        
+    </form>
+        <p id="status-text" style="color: red;">Click mic to start listening</p>
+        <p id="listening-text" style="display: none; color: red;">Listening...</p>
+        <p id="recognized-text" style="color: green;"></p>
+        <p id="error-text" style="color: red;"></p>
+    </div>
+
+    <div class="transactions-container">
+        <div class="transactions-title">Recent Transactions</div>
+        <table class="transactions-table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in recent_transactions %}
+                <tr>
+                    <td>{{ transaction.type }}</td>
+                    <td>₹{{ transaction.amount }}</td>
+                    <td>{{ transaction.category_name |title }}</td>
+                    <td>{{ transaction.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if btn %}
+        <form action="{{url_for('expenses')}}" method="POST">          
+            <button class="see-more-btn">See Less</button>
+        </form>
+        {% else %}
+        <form action="{{url_for('all_transactions')}}" , method = 'POST'>
+            <button class="see-more-btn">See More</button>
+        </form>
+        {% endif %}
+
+    </div>
+{% endblock %}

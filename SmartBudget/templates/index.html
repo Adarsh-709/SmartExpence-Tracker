@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Budget</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 style="font-weight: bolder; font-size: 70px;">SMART-BUDGET</h1>
+            <h1>Take Control of Your Finances Effortlessly!</h1>
+            <p>Track your expenses, manage your budget, and plan your future with ease. Start now and gain financial freedom.</p>
+            <a href="/login" class="cta-btn">Get Started</a>
+        </div>
+        <div class="hero-image">
+            <img src="{{ url_for('static', filename='assets/index.jpg') }}" alt="Finance Illustration">
+        </div>
+    </section>
+
+</body>
+</html>

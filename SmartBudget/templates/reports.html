@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 style="font-size: x-large; margin-top: 20px;">Expense Analysis</h1>
+    {% if summary %}
+    <div class="chrt_btn">
+        
+            <button class="cbtn" onclick="fetchGraph('bar')">📊 Spending Over Time</button>
+
+            <button class="cbtn" onclick="fetchGraph('pie')">🥧 Understand Categories</button>
+
+
+            <button class="cbtn" onclick="fetchGraph('incomevsexpense')">💰 Income vs Expense</button>
+
+
+            <button class="cbtn" onclick="fetchGraph('line')">📈 Spending Trends</button>
+
+        
+            <button class="cbtn" onclick="fetchGraph('histogram')">🔝 Top Expense Sources</button>
+
+    
+            <button class="cbtn" onclick="fetchGraph('tree')">📊 Expense Distribution</button>
+    </div>
+
+        <div class="plt_img">
+            <img id="expense-chart" src="{{ url_for('generate_report', chart='bar') }}">
+        </div>
+        
+        <div class="summary">
+            <h2 style="text-align: center;">📊 SmartBudget Powered Financial Summary</h2>
+            <p style="margin-left: 20px;font-size: larger;">{{ summary }}</p>
+        </div>
+    {% else %}
+    <div class="no_repo">
+        <p style="font-size: 30px;">No Reports to show !</p>
+        <p style="font-size: 20px;">Starting Logging Expenses to see your reports</p>
+    </div>
+    {% endif %}
+
+        
+
+{% endblock %}
